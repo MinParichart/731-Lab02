@@ -25,15 +25,7 @@ const result2 = subtract(1,2) + 0;
 console.log(result, 'type of result : ', typeof result )
 console.log(result2, 'type of result2 : ', typeof result2 )
 
-// Function to find the maximum value in a list of numbers and return it as a string
-const findMax = (numbers: number[]): string => {
-    if (numbers.length === 0) {
-    throw new Error("The list is empty");
-    }
-    const maxNumber = Math.max(...numbers);
-    return maxNumber.toString();
-}
-
+import { findMax } from './function2';
 // Example usage
 const numbers = [1, 2, 3, 4, 5];
 console.log(`The maximum number is: ${findMax(numbers)}`);
