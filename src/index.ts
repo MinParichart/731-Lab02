@@ -20,6 +20,7 @@ const add = (a : number ,b : number) : string => {
 const findMax = (numbers: number[]): string => {
     const maxNumber = Math.max(...numbers);
     return maxNumber.toString();
+}
 
 // Example usage
 const numbers = [1, 2, 3, 4, 5];
