@@ -59,4 +59,3 @@ console.log("Hello, TypeScript with Node.js!")
 // const numbers = [1, 2, 3, 4, 5];
 // console.log(`The maximum number is: ${findMax(numbers)}`);
 // console.log(typeof findMax(numbers));
-
