@@ -52,6 +52,25 @@
 // })
 
 // Task 8 ข้อ9
+// import express, { Request, Response } from 'express'
+// const app = express() 
+// const port = 3000
+
+// app.get('/',(req : Request, res : Response) => {
+//     res.send('Hello World')
+// })
+
+// app.listen(port, () => { 
+//     console.log(`App listening at http : //localhost:${port}`)
+// })
+
+// app.get('/test', (req : Request, res : Response) => { 
+//     const id = req.query.id;
+//     const output = `id : ${id}`; 
+//     res.send(output);
+// })
+
+// Task 9 ข้อ1 สร้าง type ของ Object ที่จะใช้ใน server.ts โดยการเพิ่ม code นี้ 
 import express, { Request, Response } from 'express'
 const app = express() 
 const port = 3000
@@ -69,3 +88,90 @@ app.get('/test', (req : Request, res : Response) => {
     const output = `id : ${id}`; 
     res.send(output);
 })
+
+app.get('/event', (req : Request, res : Response) => { 
+    res.json(events);
+})
+interface Event { 
+    id : number; 
+    category : string; 
+    title : string; 
+    decription : string; 
+    location : string; 
+    date : string; 
+    time : string; 
+    petsAllowed : boolean; 
+    organizer : string; 
+}
+
+// Task 9 ข้อ2 สร้าง ตัวแปร events เพื่อเก็บข้อมูล list ของ event 
+const events : Event[] = [
+    { 
+        id : 1, 
+        category : "Music", 
+        title : "Concert", 
+        decription : "A live concert", 
+        location : "London", 
+        date : "2021-07-01", 
+        time : "19:00", 
+        petsAllowed : false, 
+        organizer : "Live Nation", 
+    }, 
+    { 
+        id : 2, 
+        category : "Music", 
+        title : "Festival", 
+        decription : "A music festival", 
+        location : "Manchester", 
+        date : "2021-07-15", 
+        time : "12:00", 
+        petsAllowed : true, 
+        organizer : "Festival Republic", 
+    }, 
+    { 
+        id : 3, 
+        category : "Music", 
+        title : "Gig", 
+        decription : "A gig", 
+        location : "Birmingham", 
+        date : "2021-07-30", 
+        time : "20:00", 
+        petsAllowed : true, 
+        organizer : "Academy Music Group", 
+    },
+    {
+        id: 4,
+        category: "Music",
+        title: "Concert",
+        decription: "A live concert",
+        location: "London",
+        date: "2021-07-01",
+        time: "19:00",
+        petsAllowed: false,
+        organizer: "Live Nation",
+    },
+    {
+        id: 5,
+        category: "Music",
+        title: "Festival",
+        decription: "A music festival",
+        location: "Manchester",
+        date: "2021-07-15",
+        time: "12:00",
+        petsAllowed: true,
+        organizer: "Festival Republic",
+    },
+    {
+        id: 6,
+        category: "Music",
+        title: "Gig",
+        decription: "A gig",
+        location: "Birmingham",
+        date: "2021-07-30",
+        time: "20:00",
+        petsAllowed: true,
+        organizer: "Academy Music Group",
+    }
+]
+
+
