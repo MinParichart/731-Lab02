@@ -95,9 +95,60 @@
 
 // Task 10 การสร้าง endpoint เพื่อ query ข้อมูล
 // Task 10 ข้อ1
+// import express, { Request, Response } from "express";
+// const app = express();
+// const port = 3000;
+
+// app.get("/", (req: Request, res: Response) => {
+//   res.send(events);
+// });
+
+// app.listen(port, () => {
+//   console.log(`App listening at http : //localhost:${port}`);
+// });
+
+// // กรณีไม่มีการ check ค่า (key:"value") ว่ามีการส่งมาหรือไม่
+// // app.get("/events", (req, res) => {
+// //     const category = req.query.category;
+// //     const filteredEvents = events.filter((event) => event.category === category);
+// //     res.json(filteredEvents);
+// // });
+
+// // กรณีมีการ check ค่า (key:"value") ว่ามีการส่งมาหรือไม่
+// app.get("/events", (req, res) => {
+//   if (req.query.category) {
+//     const category = req.query.category; 
+//     const filteredEvents = events.filter((event) => event.category === category); 
+//     res.json(filteredEvents); 
+//   } else { 
+//     res.json (events); 
+//   }
+// });
+
+// // Task 10 ข้อ1  สร้าง endpoint ใหม่ เพื่อรับข้อมูล id บน path variable เพื่อใช้ในการดึงข้อมูลของ resource ตาม id
+// app.get("/events/:id", (req, res) => {
+//     const id = parseInt(req.params.id);
+//     const event = events.find((event) => event.id === id)
+//   if (event) {
+//     res.json(event);
+// } else { 
+//     res.status(404).send("Event not found");  
+//   }
+// });
+
+// Task 11 การสร้าง Endpoint เพื่อเพิ่มข้อมูล
+// Task 11 ข้อ1
 import express, { Request, Response } from "express";
 const app = express();
+app.use(express.json());
 const port = 3000;
+
+app.post("/events", (req,res)=> {
+    const newEvent : Event = req.body; 
+    newEvent.id = events.length + 1; 
+    events.push(newEvent); 
+    res.json(newEvent);
+});
 
 app.get("/", (req: Request, res: Response) => {
   res.send(events);
@@ -106,13 +157,6 @@ app.get("/", (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`App listening at http : //localhost:${port}`);
 });
-
-// กรณีไม่มีการ check ค่า (key:"value") ว่ามีการส่งมาหรือไม่
-// app.get("/events", (req, res) => {
-//     const category = req.query.category;
-//     const filteredEvents = events.filter((event) => event.category === category);
-//     res.json(filteredEvents);
-// });
 
 // กรณีมีการ check ค่า (key:"value") ว่ามีการส่งมาหรือไม่
 app.get("/events", (req, res) => {
@@ -124,6 +168,7 @@ app.get("/events", (req, res) => {
     res.json (events); 
   }
 });
+
 interface Event {
   id: number;
   category: string;
