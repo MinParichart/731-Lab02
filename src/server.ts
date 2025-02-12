@@ -95,38 +95,6 @@
 
 // Task 10 การสร้าง endpoint เพื่อ query ข้อมูล
 // Task 10 ข้อ1
-// import express, { Request, Response } from "express";
-// const app = express();
-// const port = 3000;
-
-// app.get("/", (req: Request, res: Response) => {
-//   res.send(events);
-// });
-
-// app.listen(port, () => {
-//   console.log(`App listening at http : //localhost:${port}`);
-// });
-
-// // กรณีไม่มีการ check ค่า (key:"value") ว่ามีการส่งมาหรือไม่
-// // app.get("/events", (req, res) => {
-// //     const category = req.query.category;
-// //     const filteredEvents = events.filter((event) => event.category === category);
-// //     res.json(filteredEvents);
-// // });
-
-// // กรณีมีการ check ค่า (key:"value") ว่ามีการส่งมาหรือไม่
-// app.get("/events", (req, res) => {
-//   if (req.query.category) {
-//     const category = req.query.category; 
-//     const filteredEvents = events.filter((event) => event.category === category); 
-//     res.json(filteredEvents); 
-//   } else { 
-//     res.json (events); 
-//   }
-// });
-
-// Task 10 การสร้าง endpoint เพื่อแสดงผลตาม Object ตาม id
-// Task 10 ข้อ1
 import express, { Request, Response } from "express";
 const app = express();
 const port = 3000;
@@ -139,6 +107,13 @@ app.listen(port, () => {
   console.log(`App listening at http : //localhost:${port}`);
 });
 
+// กรณีไม่มีการ check ค่า (key:"value") ว่ามีการส่งมาหรือไม่
+// app.get("/events", (req, res) => {
+//     const category = req.query.category;
+//     const filteredEvents = events.filter((event) => event.category === category);
+//     res.json(filteredEvents);
+// });
+
 // กรณีมีการ check ค่า (key:"value") ว่ามีการส่งมาหรือไม่
 app.get("/events", (req, res) => {
   if (req.query.category) {
@@ -147,17 +122,6 @@ app.get("/events", (req, res) => {
     res.json(filteredEvents); 
   } else { 
     res.json (events); 
-  }
-});
-
-// สร้าง endpoint ใหม่ เพื่อรับข้อมูล id บน path variable เพื่อใช้ในการดึงข้อมูลของ resource ตาม id
-app.get("/events/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    const event = events.find((event) => event.id === id)
-  if (event) {
-    res.json(event);
-} else { 
-    res.status(404).send("Event not found");  
   }
 });
 interface Event {
