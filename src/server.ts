@@ -444,7 +444,7 @@ const port = 3000;
 
 app.get("/", (req: Request, res: Response) => {
   res.send(events);
-  res.send(add); // ใส่เฉยๆ ให้ add ไม่หาย
+  res.send(add(1,2)); // ใส่เฉยๆ ให้ add ไม่หาย
 });
 
 app.get("/events", async (req,res) => {
