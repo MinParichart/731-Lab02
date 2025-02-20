@@ -1,4 +1,5 @@
 -- Task 6 Lab 3 ---------------------------------------------------------
+-- Task 7 Lab 3 ---------------------------------------------------------
 CREATE TABLE events (
     id INT PRIMARY KEY,
     category VARCHAR(255),
@@ -9,4 +10,5 @@ CREATE TABLE events (
     time TIME,
     petsAllowed BOOLEAN,
     organizer VARCHAR(255)
-);
+); 
+
