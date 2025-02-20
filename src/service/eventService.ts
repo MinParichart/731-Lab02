@@ -231,8 +231,28 @@
 // }
 
 // กรณีมีหลาย function - ลัด ข้อดี ไม่ต้องเปลี่ยนชื่อ function แค่ใน repo. เข้าไป 
+// import type { Event } from "../models/events";
+// import * as repo from "../repository/eventRepository";
+
+// export function getEventByCategory(category: string): Promise<Event[]> {
+//   return repo.getEventByCategory(category);
+// }
+
+// export function getAllEvents(): Promise<Event[]> {
+//   return repo.getAllEvents();
+// }
+
+// export function getEventById(id: number): Promise<Event | undefined> {
+//   return repo.getEventById(id);
+// }
+
+// export function addEvent(newEvent: Event): Promise<Event> {
+//  return repo.addEvent(newEvent);
+// }
+
+// Task 7 Lab 3 --------------------------------------------------------------
 import type { Event } from "../models/events";
-import * as repo from "../repository/eventRepository";
+import * as repo from "../repository/eventRepositoryDb";
 
 export function getEventByCategory(category: string): Promise<Event[]> {
   return repo.getEventByCategory(category);
