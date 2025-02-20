@@ -453,7 +453,7 @@ app.get("/events", async (req,res) => {
     const filteredEvents = await getEventByCategory(category as string);
     res.json(filteredEvents);
   } else {
-    res.json(await getAllEvents);
+    res.json(await getAllEvents());
   }
 })
 
