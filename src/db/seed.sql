@@ -1,4 +1,4 @@
--- Task 5 Lab 3 ---------------------------------------------------------
+-- Task 6 Lab 3 ---------------------------------------------------------
 INSERT INTO events (id, category, title, description, location, date, time, petsAllowed, organizer) VALUES
 (1, 'Music', 'Concert', 'A live concert', 'London', '2021-07-01', '19:00:00', FALSE, 'Live Nation'),
 (2, 'Music', 'Festival', 'A music festival', 'Manchester', '2021-07-15', '12:00:00', TRUE, 'Festival Republic'),
