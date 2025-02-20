@@ -730,22 +730,89 @@
 // });
 
 // Task 12 Lab3 ------------------------------------------------------
+// import dotenv from 'dotenv';
+// import express, { Request, Response } from "express";
+// import multer from "multer";
+// import add from "./functions";
+// import type { Event } from "./models/events";
+// import { events } from "./repository/eventRepository";
+// import {
+//   addEvent,
+//   getAllEvents,
+//   getEventByCategory,
+//   getEventById,
+// } from "./service/eventService";
+// import { uploadFile } from "./service/uploadFileService";
+// dotenv.config();
+// const app = express();
+// app.use(express.json());
+// const port = 3000;
+
+// const upload = multer({ storage: multer.memoryStorage() });
+
+// app.post("/upload", upload.single("file"), async (req: any, res: any) => {
+//   try {
+//     const file = req.file;
+//     if (!file) {
+//       return res.status(400).send("No file uploaded.");
+//     }
+//     const bucket = process.env.SUPABASE_BUCKET_NAME;
+//     const filePath = process.env.UPLOAD_DIR; // Task 11 Lab 3
+//     if (!bucket || !filePath) {
+//       return res.status(500).send("Bucket name or file path not configured.");
+//     }    
+//     const ouputUrl = await uploadFile(bucket, filePath, file);
+//     res.status(200).send(ouputUrl);
+//   } catch (error) {
+//     res.status(500).send("Error uploading file.");
+//   }
+// });
+
+// app.get("/", (req: Request, res: Response) => {
+//   res.send(events);
+//   res.send(add(1, 2)); // ใส่เฉยๆ ให้ add ไม่หาย
+// });
+
+// app.get("/events", async (req, res) => {
+//   if (req.query.category) {
+//     const category = req.query.category;
+//     const filteredEvents = await getEventByCategory(category as string);
+//     res.json(filteredEvents);
+//   } else {
+//     res.json(await getAllEvents());
+//   }
+// });
+
+// app.get("/events/:id", async (req, res) => {
+//   const id = parseInt(req.params.id);
+//   const event = await getEventById(id);
+//   if (event) {
+//     res.json(event);
+//   } else {
+//     res.status(404).send("Event not found");
+//   }
+// });
+
+// app.post("/events", async (req, res) => {
+//   const newEvent: Event = req.body;
+//   await addEvent(newEvent);
+//   res.json(newEvent);
+// });
+
+// app.listen(port, () => {
+//   console.log(`App listening at http : //localhost:${port}`);
+// });
+
+// Task 13 Lab3 ------------------------------------------------------
 import dotenv from 'dotenv';
-import express, { Request, Response } from "express";
+import express from "express";
 import multer from "multer";
-import add from "./functions";
-import type { Event } from "./models/events";
-import { events } from "./repository/eventRepository";
-import {
-  addEvent,
-  getAllEvents,
-  getEventByCategory,
-  getEventById,
-} from "./service/eventService";
+import eventRoute from './routes/eventRoute';
 import { uploadFile } from "./service/uploadFileService";
 dotenv.config();
 const app = express();
 app.use(express.json());
+app.use('/events',eventRoute);
 const port = 3000;
 
 const upload = multer({ storage: multer.memoryStorage() });
@@ -768,37 +835,7 @@ app.post("/upload", upload.single("file"), async (req: any, res: any) => {
   }
 });
 
-app.get("/", (req: Request, res: Response) => {
-  res.send(events);
-  res.send(add(1, 2)); // ใส่เฉยๆ ให้ add ไม่หาย
-});
-
-app.get("/events", async (req, res) => {
-  if (req.query.category) {
-    const category = req.query.category;
-    const filteredEvents = await getEventByCategory(category as string);
-    res.json(filteredEvents);
-  } else {
-    res.json(await getAllEvents());
-  }
-});
-
-app.get("/events/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
-  const event = await getEventById(id);
-  if (event) {
-    res.json(event);
-  } else {
-    res.status(404).send("Event not found");
-  }
-});
-
-app.post("/events", async (req, res) => {
-  const newEvent: Event = req.body;
-  await addEvent(newEvent);
-  res.json(newEvent);
-});
-
 app.listen(port, () => {
   console.log(`App listening at http : //localhost:${port}`);
 });
+
