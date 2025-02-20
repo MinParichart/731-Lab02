@@ -117,11 +117,11 @@
 // // กรณีมีการ check ค่า (key:"value") ว่ามีการส่งมาหรือไม่
 // app.get("/events", (req, res) => {
 //   if (req.query.category) {
-//     const category = req.query.category; 
-//     const filteredEvents = events.filter((event) => event.category === category); 
-//     res.json(filteredEvents); 
-//   } else { 
-//     res.json (events); 
+//     const category = req.query.category;
+//     const filteredEvents = events.filter((event) => event.category === category);
+//     res.json(filteredEvents);
+//   } else {
+//     res.json (events);
 //   }
 // });
 
@@ -131,8 +131,8 @@
 //     const event = events.find((event) => event.id === id)
 //   if (event) {
 //     res.json(event);
-// } else { 
-//     res.status(404).send("Event not found");  
+// } else {
+//     res.status(404).send("Event not found");
 //   }
 // });
 
@@ -144,9 +144,9 @@
 // const port = 3000;
 
 // app.post("/events", (req,res)=> {
-//     const newEvent : Event = req.body; 
-//     newEvent.id = events.length + 1; 
-//     events.push(newEvent); 
+//     const newEvent : Event = req.body;
+//     newEvent.id = events.length + 1;
+//     events.push(newEvent);
 //     res.json(newEvent);
 // });
 
@@ -161,11 +161,11 @@
 // // กรณีมีการ check ค่า (key:"value") ว่ามีการส่งมาหรือไม่
 // app.get("/events", (req, res) => {
 //   if (req.query.category) {
-//     const category = req.query.category; 
-//     const filteredEvents = events.filter((event) => event.category === category); 
-//     res.json(filteredEvents); 
-//   } else { 
-//     res.json (events); 
+//     const category = req.query.category;
+//     const filteredEvents = events.filter((event) => event.category === category);
+//     res.json(filteredEvents);
+//   } else {
+//     res.json (events);
 //   }
 // });
 
@@ -478,47 +478,115 @@
 // });
 
 // Task 4 Lab3 ------------------------------------------------------
+// import express, { Request, Response } from "express";
+// import add from "./functions";
+// import type { Event } from './models/events';
+// import { events } from './repository/eventRepository';
+// import { addEvent, getAllEvents, getEventByCategory, getEventById } from './service/eventService';
+// const app = express();
+// app.use(express.json());
+// const port = 3000;
+
+// app.get("/", (req: Request, res: Response) => {
+//   res.send(events);
+//   res.send(add(1,2)); // ใส่เฉยๆ ให้ add ไม่หาย
+// });
+
+// app.get("/events", async (req,res) => {
+//   if (req.query.category){
+//     const category = req.query.category;
+//     const filteredEvents = await getEventByCategory(category as string);
+//     res.json(filteredEvents);
+//   } else {
+//     res.json(await getAllEvents());
+//   }
+// })
+
+// app.get("/events/:id", async (req,res)=>{
+//   const id = parseInt(req.params.id);
+//   const event = await getEventById(id);
+//   if (event){
+//     res.json(event);
+//   } else {
+//     res.status(404).send("Event not found");
+//   }
+// })
+
+// app.post("/events", async (req,res)=>{
+//   const newEvent : Event = req.body;
+//   await addEvent(newEvent);
+//   res.json(newEvent);
+// });
+
+// app.listen(port, () => {
+// console.log(`App listening at http : //localhost:${port}`);
+// });
+
+// Task 9 Lab3 ------------------------------------------------------
 import express, { Request, Response } from "express";
+import multer from "multer";
 import add from "./functions";
-import type { Event } from './models/events';
-import { events } from './repository/eventRepository';
-import { addEvent, getAllEvents, getEventByCategory, getEventById } from './service/eventService';
+import type { Event } from "./models/events";
+import { events } from "./repository/eventRepository";
+import {
+  addEvent,
+  getAllEvents,
+  getEventByCategory,
+  getEventById,
+} from "./service/eventService";
+import { uploadFile } from "./service/uploadFileService";
 const app = express();
 app.use(express.json());
 const port = 3000;
 
-app.get("/", (req: Request, res: Response) => {
-  res.send(events);
-  res.send(add(1,2)); // ใส่เฉยๆ ให้ add ไม่หาย
+const upload = multer({ storage: multer.memoryStorage() });
+
+app.post("/upload", upload.single("file"), async (req: any, res: any) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      return res.status(400).send("No file uploaded.");
+    }
+    const bucket = "image";
+    const filePath = `uploads/${file.originalname}`;
+    const ouputUrl = await uploadFile(bucket, filePath, file);
+    res.status(200).send(ouputUrl);
+  } catch (error) {
+    res.status(500).send("Error uploading file.");
+  }
 });
 
-app.get("/events", async (req,res) => {
-  if (req.query.category){
+app.get("/", (req: Request, res: Response) => {
+  res.send(events);
+  res.send(add(1, 2)); // ใส่เฉยๆ ให้ add ไม่หาย
+});
+
+app.get("/events", async (req, res) => {
+  if (req.query.category) {
     const category = req.query.category;
     const filteredEvents = await getEventByCategory(category as string);
     res.json(filteredEvents);
   } else {
     res.json(await getAllEvents());
   }
-})
+});
 
-app.get("/events/:id", async (req,res)=>{
+app.get("/events/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const event = await getEventById(id);
-  if (event){
+  if (event) {
     res.json(event);
   } else {
     res.status(404).send("Event not found");
   }
-})
+});
 
-app.post("/events", async (req,res)=>{
-  const newEvent : Event = req.body;
+app.post("/events", async (req, res) => {
+  const newEvent: Event = req.body;
   await addEvent(newEvent);
   res.json(newEvent);
 });
 
 app.listen(port, () => {
-console.log(`App listening at http : //localhost:${port}`);
+  console.log(`App listening at http : //localhost:${port}`);
 });
-
